@@ -52,8 +52,24 @@ public class MobileResource {
                         .filter(mobile -> mobile.getId() == id)
                         .findFirst();
         if (mobileToDelete.isPresent()) {
-            mobiles.remove(mobileToDelete);
+            mobiles.remove(mobileToDelete.get());
             return Response.ok(mobiles).build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON) //response type
+    public Response getMobile(@PathParam("id") int id) {
+        Optional<Mobile> mobileToDelete =
+                mobiles.stream()
+                        .filter(mobile -> mobile.getId() == id)
+                        .findFirst();
+        if (mobileToDelete.isPresent()) {
+            return Response.ok(mobileToDelete.get()).build();
         }
         else {
             return Response.status(Response.Status.NOT_FOUND).build();
